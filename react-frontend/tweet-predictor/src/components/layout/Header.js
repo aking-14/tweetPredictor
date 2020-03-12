@@ -9,30 +9,11 @@ export class Header extends Component {
         return (
             <Navbar bg="light">
                 <Nav className="mr-auto">
-                    <Navbar.Brand as={Link} to="/">
-                        <img 
-                            src="/images/transparent-logo-copy.png"
-                            width="30%"
-                            height="100%"
-                            alt=""
-                        />
-                    </Navbar.Brand>
                     <Nav.Link as={Link} to="/">Home</Nav.Link>
-                    <Nav.Link as={Link} to="/services">Services</Nav.Link>
+                    <Nav.Link as={Link} to="/rdt">RDT</Nav.Link>
+                    <Nav.Link as={Link} to="/wh">Whitehouse</Nav.Link>
+                    <Nav.Link as={Link} to="/potus">Potus</Nav.Link>
                 </Nav>
-                    {
-                        (this.props.activeUser) 
-                        ?
-                        <Nav>
-                            <Nav.Link as={Link} to="/profile">Welcome!</Nav.Link>
-                            <Nav.Link as={Link} to="/logout">Log Out</Nav.Link> 
-                        </Nav>
-                        :
-                        <Nav>
-                            <Nav.Link as={Link} to="/signup">Sign Up</Nav.Link>
-                            <Nav.Link as={Link} to="/login">Log In</Nav.Link> 
-                        </Nav>
-                    }
             </Navbar>
         )
     }
