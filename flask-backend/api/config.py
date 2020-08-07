@@ -5,4 +5,4 @@ class Config:
     SECRET_KEY = os.urandom(16)
     FLASK_APP = 'api'
     FLASK_DEBUG = 1
-    SQLALCHEMY_DATABASE_URI =  'mysql+pymysql://PetsFurU:Petsforyou!19@localhost/petsfuru'
+    SQLALCHEMY_DATABASE_URI =  'sqlite:////home/austin/Desktop/future/tweetPredictor/flask-backend/api/db/tp.db'

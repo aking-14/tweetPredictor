@@ -10,7 +10,11 @@ import './App.css';
 class App extends Component {
   constructor(props){
     super(props);
+
+    this.state = {tweetInfo: 2}
   }
+
+
 
   render() {
     return (
@@ -19,7 +23,7 @@ class App extends Component {
           <Header />
           <div className="container" style={classStyle}>
             <Route exact path="/" render={ () => 
-              <HomePage /> //option to pass props here
+              <HomePage /> 
             } />
             <Route path="/rdt" component={Rdt} />
             <Route path="/wh" component={Whitehouse} />
