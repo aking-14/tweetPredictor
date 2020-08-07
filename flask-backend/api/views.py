@@ -13,7 +13,7 @@ ACCESS_SECRET = '0dh0MrjJdmvcTYvO2r5LTMYrODPx4RKM2w1NnYvl30ASj'
 CONSUMER_KEY = 'ewukOZR9emRzXzWPuMbOe4Lig'
 CONSUMER_SECRET = 'NwiegfDOcyjRiSaGS7b9z5jwkJxDk2Wj4oQtVOuD1Wv0m6rBp4'
 
-@main.route('/add_user', methods=['GET'])
+@main.route('/add_wh', methods=['GET'])
 def add_user():
     dt = datetime.now().astimezone(pytz.timezone('US/Eastern')).replace(hour=0,minute=0, second=0, microsecond=0) - timedelta(days=85)
     time = db.session.query(TweetTime).first()

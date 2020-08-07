@@ -30,4 +30,3 @@ projected count messing up
 new conference, bill trump is signing = high tweets
 em is scaled font size in html/css
 max/min/cur for rolling and fixed 24 hour
-expected number of tweets for rest of day

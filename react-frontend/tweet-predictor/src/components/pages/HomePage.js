@@ -4,9 +4,6 @@ import { Row } from 'react-bootstrap';
 import Moment from 'moment';
 import 'moment-timezone';
 
-//const data = []
-
-var spinning = true;
 
 const renderLabel = (temp) => {
     return  (
@@ -23,7 +20,6 @@ const renderTitle = (title) => {
         </Text>
     )
 }
-//pass react component instead of doing this
 
 export class HomePage extends Component {
     state = { 
@@ -41,11 +37,12 @@ export class HomePage extends Component {
         legCur: 0,
         legMA: 0,
         legMax: 0,
-        expectedC: 0
+        expectedC: 0,
+        spinning: true
     }
 
     componentDidMount(){
-        fetch('/add_user', {
+        fetch('/add_wh', {
         }).then(res => res.json()).then(r => {
             //map function to set state, starting with days of week
             const newData = {'Sunday': [], 'Monday': [], 'Tuesday': [], 'Wednesday': [], 'Thursday': [], 'Friday': [], 'Saturday': []};
@@ -528,12 +525,12 @@ export class HomePage extends Component {
     }
 
     changeBol = () => {
-        spinning = false;
+        this.setState({spinning: false})
     }
 
     render (){
 
-        if (spinning){
+        if (this.state.spinning){
             return null;
         }
 
