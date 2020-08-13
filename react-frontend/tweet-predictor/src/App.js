@@ -25,8 +25,8 @@ class App extends Component {
             <Route exact path="/" render={ () => 
               <HomePage /> 
             } />
-            <Route path="/rdt" component={Rdt} />
-            <Route path="/wh" component={Whitehouse} />
+            <Route path="/rdt" render={() => <Rdt seq={1} />} />
+            <Route path="/wh" render={() => <Whitehouse seq={2} />} />
             <Route path="/potus" component={Potus} />
           </div>
         </div>

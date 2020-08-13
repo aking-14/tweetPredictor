@@ -30,3 +30,7 @@ projected count messing up
 new conference, bill trump is signing = high tweets
 em is scaled font size in html/css
 max/min/cur for rolling and fixed 24 hour
+dummy db tables and times to test
+rdt tweets need to be updated
+light blue background color bootstrap
+code for vah/val calculations

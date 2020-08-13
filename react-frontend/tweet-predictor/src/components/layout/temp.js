@@ -19,7 +19,6 @@ const renderTitle = (title) => {
         </Text>
     )
 }
-var tempDatas = []
 
 export class Whitehouse extends Component {
     state = { 
@@ -43,17 +42,7 @@ export class Whitehouse extends Component {
 
     componentDidMount(){
         fetch('/add_wh', {
-            method: 'POST',
-            headers: {
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify(this.props)
-        }).then(response => {
-            if (!response.ok){
-                throw new Error('Network response was not ok')
-            }
-            return response.json()
-        }).then(r => {
+        }).then(res => res.json()).then(r => {
             //map function to set state, starting with days of week
             const newData = {'Sunday': [], 'Monday': [], 'Tuesday': [], 'Wednesday': [], 'Thursday': [], 'Friday': [], 'Saturday': []};
             const nFData = {'Sunday': [null, 0, 0, 0, 0, 0], 'Monday': [null, 0, 0, 0, 0, 0], 'Tuesday': [null, 0, 0, 0, 0, 0], 
@@ -465,7 +454,6 @@ export class Whitehouse extends Component {
             
             var gt = true
             for (const property in realData){
-                tempDatas = [...tempDatas, {name: property, '3 Month MA': realData[property][0], 'VAH': realData[property][1], 'VAL': realData[property][2], 'Actual Count': curData[property]}]
                 this.setState(prevState => {
                     return {
                         data : [...prevState.data, {name: property, '3 Month MA': realData[property][0], 'VAH': realData[property][1], 'VAL': realData[property][2], 'Actual Count': curData[property]}],
@@ -539,8 +527,7 @@ export class Whitehouse extends Component {
     }
     
     render (){
-        console.log(this.state)
-        console.log(tempDatas)
+
         if (this.state.spinning){
             return null;
         }
