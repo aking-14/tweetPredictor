@@ -33,4 +33,7 @@ max/min/cur for rolling and fixed 24 hour
 dummy db tables and times to test
 rdt tweets need to be updated
 light blue background color bootstrap
-code for vah/val calculations
+have expected tweets remaining for week/day in middle of graph with picture
+whitehouse cumulative count messed up 24 hour
+header dynamic sizing
+pictures

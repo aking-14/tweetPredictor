@@ -5,9 +5,7 @@ import {cleanData} from '../layout/Helpers';
 import { LineChart, Line, XAxis, YAxis, Legend, Tooltip, Label, ResponsiveContainer } from 'recharts';
 import { Row } from 'react-bootstrap';
 
-var err = false
-
-export default class Whitehouse extends Component {
+export default class Mp extends Component {
     state = {
         spinning: true
     }
@@ -30,7 +28,7 @@ export default class Whitehouse extends Component {
     }
     
     changeBol = () => {
-        this.setState({spinning: false, err: err})
+        this.setState({spinning: false})
     }
 
     renderLegend = (value) => {
@@ -56,7 +54,7 @@ export default class Whitehouse extends Component {
                             margin={{top: 50, right: 20, bottom: 30}}
                         >
                             <XAxis dataKey="name">
-                                <Label content={<CustomizedTitle legend={['7 Day White House Rolling Tweet Count', 175, 20]} />} />
+                                <Label content={<CustomizedTitle legend={['7 Day Mike Pence Rolling Tweet Count', 175, 20]} />} />
                                 <Label content={<CustomizedLabel legend={[this.state.day, this.state.abbv, this.state.max, 'Max', 290, 7.75]} />} />
                                 <Label content={<CustomizedLabel legend={[this.state.day, this.state.abbv, this.state.min, 'Min', 290, 2.3964]} />} />
                                 <Label content={<CustomizedLabel legend={[this.state.day, this.state.abbv, this.state.cur, 'Current', 290, 1.43]} />} />
@@ -75,7 +73,7 @@ export default class Whitehouse extends Component {
                             margin={{top: 50, left: 10, bottom: 30, right: 20}}
                         >
                             <XAxis dataKey="name">
-                                <Label content={<CustomizedTitle legend={['7 Day White House Fixed Tweet Count', 175, 20]} />} />
+                                <Label content={<CustomizedTitle legend={['7 Day Mike Pence Fixed Tweet Count', 175, 20]} />} />
                                 <Label content={<CustomizedLabel legend={['Weekly', 'Weekly', this.state.maxWk, 'Max', 290, 7.75]} />} />
                                 <Label content={<CustomizedLabel legend={['Weekly', 'Weekly', this.state.minWk, 'Min', 290, 2.05]} />} />
                                 <Label content={<CustomizedLabel legend={['Weekly', 'Weekly', this.state.curWk, 'Current', 290, 1.2]} />} />
@@ -98,7 +96,7 @@ export default class Whitehouse extends Component {
                             margin={{top: 50, bottom: 30, right: 20}}
                         >
                             <XAxis dataKey="name">
-                                <Label content={<CustomizedTitle legend={['24 Hour White House Rolling Tweet Count', 175, 40]} />} />
+                                <Label content={<CustomizedTitle legend={['24 Hour Mike Pence Rolling Tweet Count', 175, 40]} />} />
                                 <Label content={<CustomizedLabel legend={['Past Day', 'Past Day', this.state.legMax, 'Max', 290, 7.75]} />} />
                                 <Label content={<CustomizedLabel legend={['Past Day', 'Past Day', this.state.legCur, 'Actual', 290, 2.05]} />} />
                                 <Label content={<CustomizedLabel legend={['Past Day', 'Past Day', this.state.legMA, 'MA', 290, 1.15]} />} />
@@ -119,7 +117,7 @@ export default class Whitehouse extends Component {
                             margin={{top: 50, bottom: 30, left: 10, right: 20}} 
                         >
                             <XAxis dataKey="name">
-                                <Label content={<CustomizedTitle legend={['24 Hour White House Fixed Tweet Count', 175, 40]} />} />
+                                <Label content={<CustomizedTitle legend={['24 Hour Mike Pence Fixed Tweet Count', 175, 40]} />} />
                                 <Label content={<CustomizedLabel legend={['Expected Tweets Remaining For Day', 'Expected Tweets Remaining For Day', this.state.expectedC, '', 290, 2.5964]} />} />
                             </XAxis>
                             <YAxis />

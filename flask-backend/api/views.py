@@ -14,7 +14,7 @@ CONSUMER_KEY = 'ewukOZR9emRzXzWPuMbOe4Lig'
 CONSUMER_SECRET = 'NwiegfDOcyjRiSaGS7b9z5jwkJxDk2Wj4oQtVOuD1Wv0m6rBp4'
 seq = -1
 
-@main.route('/add_wh', methods=['GET', 'POST'])
+@main.route('/add_seq', methods=['GET', 'POST'])
 def addData():
     if request.method == 'POST':
         seq = request.get_json()['seq']

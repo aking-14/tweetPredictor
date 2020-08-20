@@ -3,13 +3,14 @@ import 'moment-timezone';
 
 
 
-export default function cleanData(data){
-    var stateObj = {}
+export function cleanData(data){
+    let stateObj = {}
     const newData = {'Sunday': [], 'Monday': [], 'Tuesday': [], 'Wednesday': [], 'Thursday': [], 'Friday': [], 'Saturday': []};
     const nFData = {'Sunday': [null, 0, 0, 0, 0, 0], 'Monday': [null, 0, 0, 0, 0, 0], 'Tuesday': [null, 0, 0, 0, 0, 0], 
         'Wednesday': [null, 0, 0, 0, 0, 0], 'Thursday': [null, 0, 0, 0, 0, 0], 'Friday': [null, 0, 0, 0, 0, 0], 'Saturday': [null, 0, 0, 0, 0, 0]};
     
     const tDay = Moment().tz('America/New_York').format('dddd');
+    const tDayAb = Moment().tz('America/New_York').format('ddd');
     const yDay1 = Moment().tz('America/New_York').subtract(1, 'days').format('dddd');
     const yDay2 = Moment().tz('America/New_York').subtract(2, 'days').format('dddd');
     const yDay3 = Moment().tz('America/New_York').subtract(3, 'days').format('dddd');
@@ -119,7 +120,6 @@ export default function cleanData(data){
         if (cur_dt >  tempx.format('MM-DD-YYYY')){
             tempx = Moment(tempx).tz('America/New_York').add(1, 'week')
         }
-
         if (cur_dt_full >= srtDy){
             if (cur_hour - srtInd > 0){
                 if (srtInd === 0){
@@ -127,6 +127,10 @@ export default function cleanData(data){
                     srtInd = srtInd + 1
                 }
                 while(cur_hour !== srtInd){
+                    let prev = cHData.get(srtInd - 1)
+                    cHData.set(srtInd, prev)
+                    srtInd = srtInd + 1
+                    /*
                     if (cur_hour !== tHour){
                         let prev = cHData.get(srtInd - 1)
                         cHData.set(srtInd, prev)
@@ -136,6 +140,7 @@ export default function cleanData(data){
                         cHData.set(srtInd, prev)
                         srtInd = srtInd + 1
                     }
+                    */
                 }
             }
 
@@ -291,8 +296,6 @@ export default function cleanData(data){
         }
         maxWk = Math.max(...newData[v]) + maxWk
         minWk = Math.min(...newData[v]) + minWk
-        var max = Math.max(...newData[v])
-        var min = Math.min(...newData[v])
 
         realData[v].push(Math.round(newData[v].reduce((acc,c) => acc + c)/newData[v].length));
         let vahArr = newData[v].filter(i => i >= realData[v][0]);
@@ -335,18 +338,18 @@ export default function cleanData(data){
         }
         var vahC, valC;
         if (nFData[v][0] != null){
-            if (curData[v] < max){
-                let vahCur = newData[v].filter(i => i >= curData[v])
-                vahC = Math.round(vahCur.reduce((acc, c) => acc + c)/vahCur.length)
-            }else{
-                vahC = max
-            }
-
-            if (curData[v] > min){
-                let valCur = newData[v].filter(i => i <= curData[v]);
+            let vahCur = newData[v].filter(i => i >= curData[v])
+            let valCur = newData[v].filter(i => i <= curData[v]);
+            if (vahCur.length < 2){
                 valC = Math.round(valCur.reduce((acc,c) => acc + c)/valCur.length)
+                vahC = valC + curData[v]
             }else{
-                valC = min
+                vahC = Math.round(vahCur.reduce((acc, c) => acc + c)/vahCur.length)
+            }
+            if (valCur.length < 2){
+                valC = vahC - curData[v]
+            }else{
+                valC = Math.round(valCur.reduce((acc,c) => acc + c)/valCur.length)
             }
 
             if (dayVa === 6){
@@ -367,9 +370,23 @@ export default function cleanData(data){
     for (let [k, v] of curHourly){
         let mAve = Math.round(v.reduce((acc, c) => acc + c)/v.length)
         let vahArr = v.filter(i => i >= mAve)
-        let vah = Math.round(vahArr.reduce((acc, c) => acc + c)/vahArr.length)
         let valArr = v.filter(i => i <= mAve)
-        let val = Math.round(valArr.reduce((acc, c) => acc + c)/valArr.length)
+        let vah, val
+        if (vahArr.length < 2){
+            val = Math.round(valArr.reduce((acc, c) => acc + c)/valArr.length)
+            if (val === 0){
+                vah = mAve + mAve
+            }else{
+                vah = val + mAve
+            }
+        }else{
+            vah = Math.round(vahArr.reduce((acc, c) => acc + c)/vahArr.length)
+        }
+        if (valArr.length < 2){
+            val = vah - mAve
+        }else{
+            val = Math.round(valArr.reduce((acc, c) => acc + c)/valArr.length)
+        }
         let maxHr = Math.max(...v)
         let minHr = Math.min(...v)
         realHour.set(k, [mAve, vah, val, maxHr, minHr])
@@ -423,7 +440,7 @@ export default function cleanData(data){
     }
 
     var gt = true
-    var stateData = []
+    let stateData = []
     for (const property in realData){
         stateData = [...stateData, {name: property, '3 Month MA': realData[property][0], 'VAH': realData[property][1], 'VAL': realData[property][2], 'Actual Count': curData[property]}];
         
@@ -438,11 +455,15 @@ export default function cleanData(data){
         }
     }
 
-    var stateFixedData = []
+    var expectedW = 0
+    let stateFixedData = []
     for (const property in nFData){
         stateFixedData = [...stateFixedData, {name: property, 'Projected Count': nFData[property][1], 'Projected VAH' : nFData[property][2], 'Projected VAL' : nFData[property][3], 'Cumulative Count': nFData[property][0], 'Current VAH': nFData[property][4], 'Current VAL': nFData[property][5]}];
         if (property === Moment().tz('America/New_York').format('dddd')){
             var curWk = nFData[property][0]
+        }
+        if (property === 'Saturday'){
+            expectedW = nFData[property][1] - curWk
         }
     }
     
@@ -450,7 +471,7 @@ export default function cleanData(data){
     var legMax = 0
     var legCur = 0
     var legMA = 0
-    var stateHourlyData = []
+    let stateHourlyData = []
     for (let [k, v] of realHour){
         stateHourlyData = [...stateHourlyData, {name: k, '3 Month MA':  v[0], 'VAH': v[1], 'VAL': v[2], 'Max': v[3], 'Min': v[4], 'Current': realHourly.get(k)}]
 
@@ -467,7 +488,7 @@ export default function cleanData(data){
     }
     
     var expectedC = 0
-    var stateFixedHrly = []
+    let stateFixedHrly = []
     for (let [k, v] of cHData){
         stateFixedHrly = [...stateFixedHrly, {name: k, 'Projected VAL': v[3], 'Projected Count': v[1], 'Projected VAH': v[2], 'Cumulative Count': v[0]}]
 
@@ -493,6 +514,346 @@ export default function cleanData(data){
     stateObj['legMA'] = legMA
     stateObj['legMax'] = legMax
     stateObj['expectedC'] = expectedC
+    stateObj['expectedW'] = expectedW
+    stateObj['abbv'] = tDayAb
+
+    return stateObj
+}
+
+export function cleanHomeData(data){
+    let stateObj = {}
+    const tDay = Moment().tz('America/New_York').format('dddd');
+    const tDayAb = Moment().tz('America/New_York').format('ddd');
+    const yDay1 = Moment().tz('America/New_York').subtract(1, 'days').format('dddd');
+    const yDay2 = Moment().tz('America/New_York').subtract(2, 'days').format('dddd');
+    const yDay3 = Moment().tz('America/New_York').subtract(3, 'days').format('dddd');
+    const yDay4 = Moment().tz('America/New_York').subtract(4, 'days').format('dddd');
+    const yDay5 = Moment().tz('America/New_York').subtract(5, 'days').format('dddd');
+    const yDay6 = Moment().tz('America/New_York').subtract(6, 'days').format('dddd');
+
+    const newDataWh = {'Sunday': [], 'Monday': [], 'Tuesday': [], 'Wednesday': [], 'Thursday': [], 'Friday': [], 'Saturday': []};
+    const realDataWh = {[yDay6]: [], [yDay5]: [], [yDay4]: [], [yDay3]: [], [yDay2]: [], [yDay1]: [], [tDay]: []};
+    const curDataWh = {[yDay6]: 0, [yDay5]: 0, [yDay4]: 0, [yDay3]: 0, [yDay2]: 0, [yDay1]: 0, [tDay]: 0};
+    
+    const newDataRdt = {'Sunday': [], 'Monday': [], 'Tuesday': [], 'Wednesday': [], 'Thursday': [], 'Friday': [], 'Saturday': []};            
+    const realDataRdt = {[yDay6]: [], [yDay5]: [], [yDay4]: [], [yDay3]: [], [yDay2]: [], [yDay1]: [], [tDay]: []};
+    const curDataRdt = {[yDay6]: 0, [yDay5]: 0, [yDay4]: 0, [yDay3]: 0, [yDay2]: 0, [yDay1]: 0, [tDay]: 0};
+    
+    const newDataJb = {'Sunday': [], 'Monday': [], 'Tuesday': [], 'Wednesday': [], 'Thursday': [], 'Friday': [], 'Saturday': []};
+    const realDataJb = {[yDay6]: [], [yDay5]: [], [yDay4]: [], [yDay3]: [], [yDay2]: [], [yDay1]: [], [tDay]: []};
+    const curDataJb = {[yDay6]: 0, [yDay5]: 0, [yDay4]: 0, [yDay3]: 0, [yDay2]: 0, [yDay1]: 0, [tDay]: 0};
+    
+    const newDataMp = {'Sunday': [], 'Monday': [], 'Tuesday': [], 'Wednesday': [], 'Thursday': [], 'Friday': [], 'Saturday': []};
+    const realDataMp = {[yDay6]: [], [yDay5]: [], [yDay4]: [], [yDay3]: [], [yDay2]: [], [yDay1]: [], [tDay]: []};
+    const curDataMp = {[yDay6]: 0, [yDay5]: 0, [yDay4]: 0, [yDay3]: 0, [yDay2]: 0, [yDay1]: 0, [tDay]: 0};
+    
+    var srtDt = Moment().tz('America/New_York').subtract(84, 'days').format('MM-DD-YYYY');
+    const srtDtFxd = Moment().tz('America/New_York').subtract(84, 'days').format('MM-DD-YYYY');
+    var endDt = Moment(srtDt).tz('America/New_York').add(7, 'days').format('MM-DD-YYYY');
+    var begStp = Moment().tz('America/New_York').subtract(6, 'days').format('MM-DD-YYYY');
+    var stpDt = Moment().tz('America/New_York').format('MM-DD-YYYY');
+    
+    var rnge = 1;
+    var gate = true;
+
+    data[0].map(x => {
+        let cur_dt = Moment.parseZone(x.dates).format('MM-DD-YYYY');
+        let k = '';
+        let l = '';
+        
+        if (cur_dt >= begStp && cur_dt <= stpDt){
+            l = Moment.parseZone(x.dates).format('dddd');
+            curDataWh[l] = curDataWh[l] + 1;
+        }
+
+        if (cur_dt >= srtDt && cur_dt < endDt && gate){
+            k = Moment.parseZone(x.dates).format('dddd');
+            if (rnge !== newDataWh[k].length){
+                let pl = rnge - newDataWh[k].length
+                while (pl > 1){
+                    newDataWh[k].push(0)
+                    pl = rnge - newDataWh[k].length
+                }
+                newDataWh[k].push(1);
+            }else{
+                newDataWh[k][newDataWh[k].length - 1] = newDataWh[k][newDataWh[k].length - 1] + 1;
+            }
+        }else{
+            if (cur_dt >= srtDtFxd){
+                if (gate){
+                    k = Moment.parseZone(x.dates).format('dddd');
+                    srtDt = endDt;
+                    endDt = Moment(srtDt).tz('America/New_York').add(7, 'days').format('MM-DD-YYYY');
+                    if (endDt > stpDt){
+                        gate = !gate;
+                    }else{
+                        newDataWh[k].push(1);
+                        rnge = rnge + 1;
+                    }
+                }
+            }
+        }
+        return newDataWh;
+    })
+
+    srtDt = Moment().tz('America/New_York').subtract(84, 'days').format('MM-DD-YYYY');
+    endDt = Moment(srtDt).tz('America/New_York').add(7, 'days').format('MM-DD-YYYY');
+
+    rnge = 1;
+    gate = true;
+    
+    data[1].map(x => {
+        let cur_dt = Moment.parseZone(x.dates).format('MM-DD-YYYY');
+        let k = '';
+        let l = '';
+        
+        if (cur_dt >= begStp && cur_dt <= stpDt){
+            l = Moment.parseZone(x.dates).format('dddd');
+            curDataRdt[l] = curDataRdt[l] + 1;
+        }
+
+        if (cur_dt >= srtDt && cur_dt < endDt && gate){
+            k = Moment.parseZone(x.dates).format('dddd');
+            if (rnge !== newDataRdt[k].length){
+                let pl = rnge - newDataRdt[k].length
+                while (pl > 1){
+                    newDataRdt[k].push(0)
+                    pl = rnge - newDataRdt[k].length
+                }
+                newDataRdt[k].push(1);
+            }else{
+                newDataRdt[k][newDataRdt[k].length - 1] = newDataRdt[k][newDataRdt[k].length - 1] + 1;
+            }
+        }else{
+            if (cur_dt >= srtDtFxd){
+                if (gate){
+                    k = Moment.parseZone(x.dates).format('dddd');
+                    srtDt = endDt;
+                    endDt = Moment(srtDt).tz('America/New_York').add(7, 'days').format('MM-DD-YYYY');
+                    if (endDt > stpDt){
+                        gate = !gate;
+                    }else{
+                        newDataRdt[k].push(1);
+                        rnge = rnge + 1;
+                    }
+                }
+            }
+        }
+        return newDataRdt;
+    })
+
+    srtDt = Moment().tz('America/New_York').subtract(84, 'days').format('MM-DD-YYYY');
+    endDt = Moment(srtDt).tz('America/New_York').add(7, 'days').format('MM-DD-YYYY');
+
+    rnge = 1;
+    gate = true;
+    
+    data[2].map(x => {
+        let cur_dt = Moment.parseZone(x.dates).format('MM-DD-YYYY');
+        let k = '';
+        let l = '';
+        
+        if (cur_dt >= begStp && cur_dt <= stpDt){
+            l = Moment.parseZone(x.dates).format('dddd');
+            curDataJb[l] = curDataJb[l] + 1;
+        }
+
+        if (cur_dt >= srtDt && cur_dt < endDt && gate){
+            k = Moment.parseZone(x.dates).format('dddd');
+            if (rnge !== newDataJb[k].length){
+                let pl = rnge - newDataJb[k].length
+                while (pl > 1){
+                    newDataJb[k].push(0)
+                    pl = rnge - newDataJb[k].length
+                }
+                newDataJb[k].push(1);
+            }else{
+                newDataJb[k][newDataJb[k].length - 1] = newDataJb[k][newDataJb[k].length - 1] + 1;
+            }
+        }else{
+            if (cur_dt >= srtDtFxd){
+                if (gate){
+                    k = Moment.parseZone(x.dates).format('dddd');
+                    srtDt = endDt;
+                    endDt = Moment(srtDt).tz('America/New_York').add(7, 'days').format('MM-DD-YYYY');
+                    if (endDt > stpDt){
+                        gate = !gate;
+                    }else{
+                        newDataJb[k].push(1);
+                        rnge = rnge + 1;
+                    }
+                }
+            }
+        }
+        return newDataJb;
+    })
+
+    srtDt = Moment().tz('America/New_York').subtract(84, 'days').format('MM-DD-YYYY');
+    endDt = Moment(srtDt).tz('America/New_York').add(7, 'days').format('MM-DD-YYYY');
+
+    rnge = 1;
+    gate = true;
+    
+    data[3].map(x => {
+        let cur_dt = Moment.parseZone(x.dates).format('MM-DD-YYYY');
+        let k = '';
+        let l = '';
+        
+        if (cur_dt >= begStp && cur_dt <= stpDt){
+            l = Moment.parseZone(x.dates).format('dddd');
+            curDataMp[l] = curDataMp[l] + 1;
+        }
+
+        if (cur_dt >= srtDt && cur_dt < endDt && gate){
+            k = Moment.parseZone(x.dates).format('dddd');
+            if (rnge !== newDataMp[k].length){
+                let pl = rnge - newDataMp[k].length
+                while (pl > 1){
+                    newDataMp[k].push(0)
+                    pl = rnge - newDataMp[k].length
+                }
+                newDataMp[k].push(1);
+            }else{
+                newDataMp[k][newDataMp[k].length - 1] = newDataMp[k][newDataMp[k].length - 1] + 1;
+            }
+        }else{
+            if (cur_dt >= srtDtFxd){
+                if (gate){
+                    k = Moment.parseZone(x.dates).format('dddd');
+                    srtDt = endDt;
+                    endDt = Moment(srtDt).tz('America/New_York').add(7, 'days').format('MM-DD-YYYY');
+                    if (endDt > stpDt){
+                        gate = !gate;
+                    }else{
+                        newDataMp[k].push(1);
+                        rnge = rnge + 1;
+                    }
+                }
+            }
+        }
+        return newDataMp;
+    })
+
+    for (const v in newDataWh){
+        let curDy = Moment().tz('America/New_York').format('dddd')
+        if (curDy === v){
+            var maxWh = Math.max(...newDataWh[v])
+            var minWh = Math.min(...newDataWh[v])
+            var curWh = curDataWh[v]
+
+            var maxRdt = Math.max(...newDataRdt[v])
+            var minRdt = Math.min(...newDataRdt[v])
+            var curRdt = curDataRdt[v]
+
+            var maxJb = Math.max(...newDataJb[v])
+            var minJb = Math.min(...newDataJb[v])
+            var curJb = curDataJb[v]
+
+            var maxMp = Math.max(...newDataMp[v])
+            var minMp = Math.min(...newDataMp[v])
+            var curMp = curDataMp[v]
+        }
+        realDataWh[v].push(Math.round(newDataWh[v].reduce((acc,c) => acc + c)/newDataWh[v].length));
+        let vahArr = newDataWh[v].filter(i => i >= realDataWh[v][0]);
+        let valArr = newDataWh[v].filter(i => i <= realDataWh[v][0]);
+        let vah, val
+        if (vahArr.length < 2){
+            val = Math.round(valArr.reduce((acc, c) => acc + c)/valArr.length)
+            vah = val + realDataWh[v][0]
+        }else{
+            vah = Math.round(vahArr.reduce((acc, c) => acc + c)/vahArr.length)
+        }
+        if (valArr.length < 2){
+            val = vah - realDataWh[v][0]
+        }else{
+            val = Math.round(valArr.reduce((acc, c) => acc + c)/valArr.length)
+        }
+        realDataWh[v].push(vah);
+        realDataWh[v].push(val);
+
+        realDataRdt[v].push(Math.round(newDataRdt[v].reduce((acc,c) => acc + c)/newDataRdt[v].length));
+        let vahArrRdt = newDataRdt[v].filter(i => i >= realDataRdt[v][0]);
+        let valArrRdt = newDataRdt[v].filter(i => i <= realDataRdt[v][0]);
+        let vahRdt, valRdt
+        if (vahArrRdt.length < 2){
+            valRdt = Math.round(valArrRdt.reduce((acc,c) => acc + c)/valArrRdt.length)
+            vahRdt = valRdt + realDataRdt[v][0]
+        }else{
+            vahRdt = Math.round(vahArrRdt.reduce((acc,c) => acc + c)/vahArrRdt.length)
+        }
+        if (valArrRdt.length < 2){
+            valRdt = vahRdt - realDataRdt[v][0]
+        }else{
+            valRdt = Math.round(valArrRdt.reduce((acc,c) => acc + c)/valArrRdt.length)
+        }
+        realDataRdt[v].push(vahRdt);
+        realDataRdt[v].push(valRdt);
+
+        realDataJb[v].push(Math.round(newDataJb[v].reduce((acc,c) => acc + c)/newDataJb[v].length));
+        let vahArrJb = newDataJb[v].filter(i => i >= realDataJb[v][0]);
+        let valArrJb = newDataJb[v].filter(i => i <= realDataJb[v][0]);
+        let vahJb, valJb
+        if (vahArrJb.length < 2){
+            valJb = Math.round(valArrJb.reduce((acc,c) => acc + c)/valArrJb.length)
+            vahJb = valJb + realDataJb[v][0]
+        }else{
+            vahJb = Math.round(vahArrJb.reduce((acc,c) => acc + c)/vahArrJb.length)
+        }
+        if (valArrJb.length < 2){
+            valJb = vahJb - realDataJb[v][0]
+        }else{
+            valJb = Math.round(valArrJb.reduce((acc,c) => acc + c)/valArrJb.length)
+        }
+        realDataJb[v].push(vahJb);
+        realDataJb[v].push(valJb);
+
+        realDataMp[v].push(Math.round(newDataMp[v].reduce((acc,c) => acc + c)/newDataMp[v].length));
+        let vahArrMp = newDataMp[v].filter(i => i >= realDataMp[v][0]);
+        let valArrMp = newDataMp[v].filter(i => i <= realDataMp[v][0]);
+        let vahMp, valMp
+        if (vahArrMp.length < 2){
+            valMp = Math.round(valArrMp.reduce((acc,c) => acc + c)/valArrMp.length)
+            vahMp = valMp + realDataMp[v][0]
+        }else{
+            vahMp = Math.round(vahArrMp.reduce((acc,c) => acc + c)/vahArrMp.length)
+        }
+        if (valArrMp.length < 2){
+            valMp = vahMp - realDataMp[v][0]
+        }else{
+            valMp = Math.round(valArrMp.reduce((acc,c) => acc + c)/valArrMp.length)
+        }
+        realDataMp[v].push(vahMp);
+        realDataMp[v].push(valMp);
+    }
+
+    let stateData = []
+    let stateRdtData = []
+    let stateJbData = []
+    let stateMpData = []
+    for (const property in realDataWh){
+        stateData = [...stateData, {name: property, '3 Month MA': realDataWh[property][0], 'VAH': realDataWh[property][1], 'VAL': realDataWh[property][2], 'Actual Count': curDataWh[property]}]
+        stateRdtData = [...stateRdtData, {name: property, '3 Month MA': realDataRdt[property][0], 'VAH': realDataRdt[property][1], 'VAL': realDataRdt[property][2], 'Actual Count': curDataRdt[property]}]
+        stateJbData = [...stateJbData, {name: property, '3 Month MA': realDataJb[property][0], 'VAH': realDataJb[property][1], 'VAL': realDataJb[property][2], 'Actual Count': curDataJb[property]}]
+        stateMpData = [...stateMpData, {name: property, '3 Month MA': realDataMp[property][0], 'VAH': realDataMp[property][1], 'VAL': realDataMp[property][2], 'Actual Count': curDataMp[property]}]
+    }
+    stateObj['data'] = stateData
+    stateObj['rdtData'] = stateRdtData
+    stateObj['jbData'] = stateJbData
+    stateObj['mpData'] = stateMpData
+    stateObj['day'] = tDay
+    stateObj['maxWh'] = maxWh
+    stateObj['minWh'] = minWh
+    stateObj['curWh'] = curWh
+    stateObj['maxRdt'] = maxRdt
+    stateObj['minRdt'] = minRdt
+    stateObj['curRdt'] = curRdt
+    stateObj['maxJb'] = maxJb
+    stateObj['minJb'] = minJb
+    stateObj['curJb'] = curJb
+    stateObj['maxMp'] = maxMp
+    stateObj['minMp'] = minMp
+    stateObj['curMp'] = curMp
+    stateObj['abbv'] = tDayAb
 
     return stateObj
 }

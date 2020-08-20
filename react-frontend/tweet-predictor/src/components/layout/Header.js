@@ -7,12 +7,13 @@ export class Header extends Component {
     render (){
            
         return (
-            <Navbar bg="light">
+            <Navbar className="color-nav">
                 <Nav className="mr-auto">
                     <Nav.Link as={Link} to="/">Home</Nav.Link>
-                    <Nav.Link as={Link} to="/rdt">RDT</Nav.Link>
-                    <Nav.Link as={Link} to="/wh">Whitehouse</Nav.Link>
-                    <Nav.Link as={Link} to="/potus">Potus</Nav.Link>
+                    <Nav.Link as={Link} to="/rdt">Donald Trump</Nav.Link>
+                    <Nav.Link as={Link} to="/wh">White House</Nav.Link>
+                    <Nav.Link as={Link} to="/jb">Joe Biden</Nav.Link>
+                    <Nav.Link as={Link} to="/mp">Mike Pence</Nav.Link>
                 </Nav>
             </Navbar>
         )
