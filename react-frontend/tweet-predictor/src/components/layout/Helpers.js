@@ -145,6 +145,7 @@ export function cleanData(data){
             }
 
             if (cHData.get(cur_hour)[0] === null){
+                console.log(cur_hour, cHData.get(cur_hour))
                 if (cur_hour === 0){
                     if (cur_hour !== tHour){
                         cHData.set(cur_hour, [1, 0])
@@ -168,6 +169,9 @@ export function cleanData(data){
                     cHData.set(cur_hour, [pstCt, 0])
                 }
             }
+            console.log("hi", cur_hour, cHData.get(cur_hour))
+            console.log(cur_dt_full)
+                
 
             if (cur_hour === srtInd){
                 srtInd = srtInd + 1
@@ -259,7 +263,6 @@ export function cleanData(data){
         }
         return newData;
     })
-
     if (srtInd - tHour < 1){
         while(srtInd - tHour < 1){
             if (srtInd - tHour === 0){
@@ -463,7 +466,9 @@ export function cleanData(data){
             var curWk = nFData[property][0]
         }
         if (property === 'Saturday'){
-            expectedW = nFData[property][1] - curWk
+            if (curWk <= nFData[property][1]){
+                expectedW = nFData[property][1] - curWk
+            }
         }
     }
     

@@ -3,7 +3,8 @@ import CustomizedTitle from '../layout/CustomizedTitle';
 import CustomizedLabel from '../layout/CustomizedLabel';
 import {cleanData} from '../layout/Helpers';
 import { LineChart, Line, XAxis, YAxis, Legend, Tooltip, Label, ResponsiveContainer } from 'recharts';
-import { Row } from 'react-bootstrap';
+import { Row, Col } from 'react-bootstrap';
+import logo from '../../images/rdtPic2.jpg'
 
 export default class Rdt extends Component {
     state = {
@@ -49,15 +50,38 @@ export default class Rdt extends Component {
                     </div>
                 </Row>
                 <Row>
+                    <Col />
+                    <div style={{fontSize: '24px', display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
+                        Expected Tweets Remaining for Day: 
+                        <span style={statStyle}>
+                            {this.state.expectedC}
+                        </span>
+                    </div>
+                    <Col />
+                    <Col />
+                    <div style={{paddingBottom: '10px'}}>
+                        <img className="img-rdt" src={logo} alt="logo"/>
+                    </div>
+                    <Col />
+                    <Col />
+                    <div style={{fontSize: '24px', display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
+                        Expected Tweets Remaining for Week: 
+                        <span style={curStyle}>
+                            {this.state.expectedW}
+                        </span>
+                    </div>
+                    <Col />
+                </Row>
+                <Row>
                     <ResponsiveContainer height={300}>
                         <LineChart data={this.state.data}
                             margin={{top: 50, right: 20, bottom: 30}}
                         >
                             <XAxis dataKey="name">
                                 <Label content={<CustomizedTitle legend={['7 Day Donald Trump Rolling Tweet Count', 175, 20]} />} />
-                                <Label content={<CustomizedLabel legend={[this.state.day, this.state.abbv, this.state.max, 'Max', 290, 7.75]} />} />
-                                <Label content={<CustomizedLabel legend={[this.state.day, this.state.abbv, this.state.min, 'Min', 290, 2.3964]} />} />
-                                <Label content={<CustomizedLabel legend={[this.state.day, this.state.abbv, this.state.cur, 'Current', 290, 1.43]} />} />
+                                <Label content={<CustomizedLabel legend={[this.state.day, this.state.abbv, this.state.max, 'Max', 290, 15]} />} />
+                                <Label content={<CustomizedLabel legend={[this.state.day, this.state.abbv, this.state.min, 'Min', 290, 2.3]} />} />
+                                <Label content={<CustomizedLabel legend={[this.state.day, this.state.abbv, this.state.cur, 'Current', 290, 1.3]} />} />
                             </XAxis>
                             <YAxis />
                             <Legend />
@@ -74,9 +98,9 @@ export default class Rdt extends Component {
                         >
                             <XAxis dataKey="name">
                                 <Label content={<CustomizedTitle legend={['7 Day Donald Trump Fixed Tweet Count', 175, 20]} />} />
-                                <Label content={<CustomizedLabel legend={['Weekly', 'Weekly', this.state.maxWk, 'Max', 290, 7.75]} />} />
-                                <Label content={<CustomizedLabel legend={['Weekly', 'Weekly', this.state.minWk, 'Min', 290, 2.05]} />} />
-                                <Label content={<CustomizedLabel legend={['Weekly', 'Weekly', this.state.curWk, 'Current', 290, 1.2]} />} />
+                                <Label content={<CustomizedLabel legend={['Weekly', 'Week', this.state.maxWk, 'Max', 290, 7.75]} />} />
+                                <Label content={<CustomizedLabel legend={['Weekly', 'Week', this.state.minWk, 'Min', 290, 2.05]} />} />
+                                <Label content={<CustomizedLabel legend={['Weekly', 'Week', this.state.curWk, 'Current', 290, 1.15]} />} />
                             </XAxis>
                             <YAxis />
                             <Legend formatter={this.renderLegend} wrapperStyle={{left: 40}}/>
@@ -97,9 +121,9 @@ export default class Rdt extends Component {
                         >
                             <XAxis dataKey="name">
                                 <Label content={<CustomizedTitle legend={['24 Hour Donald Trump Rolling Tweet Count', 175, 40]} />} />
-                                <Label content={<CustomizedLabel legend={['Past Day', 'Past Day', this.state.legMax, 'Max', 290, 7.75]} />} />
-                                <Label content={<CustomizedLabel legend={['Past Day', 'Past Day', this.state.legCur, 'Actual', 290, 2.05]} />} />
-                                <Label content={<CustomizedLabel legend={['Past Day', 'Past Day', this.state.legMA, 'MA', 290, 1.15]} />} />
+                                <Label content={<CustomizedLabel legend={['Past Day', 'P. D.', this.state.legMax, 'Max', 290, 7.75]} />} />
+                                <Label content={<CustomizedLabel legend={['Past Day', 'P. D.', this.state.legCur, 'Actual', 290, 2.05]} />} />
+                                <Label content={<CustomizedLabel legend={['Past Day', 'P. D.', this.state.legMA, 'MA', 290, 1.15]} />} />
                             </XAxis>
                             <YAxis />
                             <Legend />
@@ -138,4 +162,34 @@ export default class Rdt extends Component {
             </React.Fragment>
         )
     }
+}
+
+const statStyle = {
+    paddingRight: 3,
+    paddingLeft: 3,
+    marginLeft: 5,
+    marginRight: 5,
+    backgroundColor: '#ffde00',
+    color: '#333',
+    display: 'inline-block',
+    fontFamily: 'Crimson Text',
+    fontSize: 24,
+    textAlign: 'center',
+    borderStyle: 'solid',
+    position: 'relative'
+}
+
+const curStyle = {
+    paddingRight: 3,
+    paddingLeft: 3,
+    marginLeft: 5,
+    marginRight: 5,
+    backgroundColor: '#4bb272',
+    color: '#333',
+    display: 'inline-block',
+    fontFamily: 'Crimson Text',
+    fontSize: 24,
+    textAlign: 'center',
+    borderStyle: 'solid',
+    position: 'relative'
 }

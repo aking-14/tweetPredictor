@@ -14,8 +14,16 @@
     background-color: #1DA1F2 !important;
 }
 
-.navbar-light .navbar-nav .nav-link {
+.nav-link {
     color: #F5F8FA !important;
+}
+
+.nav-link:hover {
+    color: #657786 !important;
+}
+
+.img-rdt {
+    border-radius: 50%;
 }
 
 .loader:empty {

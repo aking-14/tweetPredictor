@@ -34,6 +34,12 @@ dummy db tables and times to test
 rdt tweets need to be updated
 light blue background color bootstrap
 have expected tweets remaining for week/day in middle of graph with picture
-whitehouse cumulative count messed up 24 hour
-header dynamic sizing
 pictures
+spinning wheel only on home page
+fetch every 15 mins on frontend, on back end update every 15 mins regardless of frontend api call or not
+load picture from state as well
+
+
+database duplicating values because brave browser extension vanilla cookie manager was clearing cookies from other brave browser extensions causing a 2nd render of page on start up.
+
+look up display flex, and other flexbox characteristics, display inline-block, position relative, have faint top and bottom border between pic and graphs maybe style it to look cool, look into iframe and pre tags, dynamically style both span and div elements in css sheet, read html standard website

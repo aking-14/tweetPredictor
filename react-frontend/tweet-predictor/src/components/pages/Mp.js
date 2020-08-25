@@ -55,9 +55,9 @@ export default class Mp extends Component {
                         >
                             <XAxis dataKey="name">
                                 <Label content={<CustomizedTitle legend={['7 Day Mike Pence Rolling Tweet Count', 175, 20]} />} />
-                                <Label content={<CustomizedLabel legend={[this.state.day, this.state.abbv, this.state.max, 'Max', 290, 7.75]} />} />
-                                <Label content={<CustomizedLabel legend={[this.state.day, this.state.abbv, this.state.min, 'Min', 290, 2.3964]} />} />
-                                <Label content={<CustomizedLabel legend={[this.state.day, this.state.abbv, this.state.cur, 'Current', 290, 1.43]} />} />
+                                <Label content={<CustomizedLabel legend={[this.state.day, this.state.abbv, this.state.max, 'Max', 290, 15]} />} />
+                                <Label content={<CustomizedLabel legend={[this.state.day, this.state.abbv, this.state.min, 'Min', 290, 2.3]} />} />
+                                <Label content={<CustomizedLabel legend={[this.state.day, this.state.abbv, this.state.cur, 'Current', 290, 1.3]} />} />
                             </XAxis>
                             <YAxis />
                             <Legend />
@@ -74,9 +74,9 @@ export default class Mp extends Component {
                         >
                             <XAxis dataKey="name">
                                 <Label content={<CustomizedTitle legend={['7 Day Mike Pence Fixed Tweet Count', 175, 20]} />} />
-                                <Label content={<CustomizedLabel legend={['Weekly', 'Weekly', this.state.maxWk, 'Max', 290, 7.75]} />} />
-                                <Label content={<CustomizedLabel legend={['Weekly', 'Weekly', this.state.minWk, 'Min', 290, 2.05]} />} />
-                                <Label content={<CustomizedLabel legend={['Weekly', 'Weekly', this.state.curWk, 'Current', 290, 1.2]} />} />
+                                <Label content={<CustomizedLabel legend={['Weekly', 'Week', this.state.maxWk, 'Max', 290, 7.75]} />} />
+                                <Label content={<CustomizedLabel legend={['Weekly', 'Week', this.state.minWk, 'Min', 290, 2.05]} />} />
+                                <Label content={<CustomizedLabel legend={['Weekly', 'Week', this.state.curWk, 'Current', 290, 1.15]} />} />
                             </XAxis>
                             <YAxis />
                             <Legend formatter={this.renderLegend} wrapperStyle={{left: 40}}/>
@@ -97,9 +97,9 @@ export default class Mp extends Component {
                         >
                             <XAxis dataKey="name">
                                 <Label content={<CustomizedTitle legend={['24 Hour Mike Pence Rolling Tweet Count', 175, 40]} />} />
-                                <Label content={<CustomizedLabel legend={['Past Day', 'Past Day', this.state.legMax, 'Max', 290, 7.75]} />} />
-                                <Label content={<CustomizedLabel legend={['Past Day', 'Past Day', this.state.legCur, 'Actual', 290, 2.05]} />} />
-                                <Label content={<CustomizedLabel legend={['Past Day', 'Past Day', this.state.legMA, 'MA', 290, 1.15]} />} />
+                                <Label content={<CustomizedLabel legend={['Past Day', 'P. D.', this.state.legMax, 'Max', 290, 7.75]} />} />
+                                <Label content={<CustomizedLabel legend={['Past Day', 'P. D.', this.state.legCur, 'Actual', 290, 2.05]} />} />
+                                <Label content={<CustomizedLabel legend={['Past Day', 'P. D.', this.state.legMA, 'MA', 290, 1.15]} />} />
                             </XAxis>
                             <YAxis />
                             <Legend />

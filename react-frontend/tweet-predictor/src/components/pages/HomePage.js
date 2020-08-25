@@ -6,17 +6,19 @@ import { ResponsiveContainer, LineChart, Line, XAxis, YAxis, Legend, Tooltip, La
 import { Row } from 'react-bootstrap';
 
 export class HomePage extends Component {
-    state = {
-        spinning: true
+    constructor(props) {
+        super(props)
+        this.state = {
+            spinning: true
+        }
     }
-
     componentDidMount(){
         fetch('/add_all', {
         }).then(res => res.json()).then(r => {
             this.setState(cleanHomeData(r), this.changeBol())
         });
     }
-
+    
     changeBol = () => {
         this.setState({spinning: false})
     }
@@ -40,9 +42,9 @@ export class HomePage extends Component {
                         >
                             <XAxis dataKey="name">
                                 <Label content={<CustomizedTitle legend={['7 Day Whitehouse Rolling Tweet Count', 175, 20]} />} />
-                                <Label content={<CustomizedLabel legend={[this.state.day, this.state.abbv, this.state.maxWh, 'Max', 290, 7.75]} />} />
-                                <Label content={<CustomizedLabel legend={[this.state.day, this.state.abbv, this.state.minWh, 'Min', 290, 2.3964]} />} />
-                                <Label content={<CustomizedLabel legend={[this.state.day, this.state.abbv, this.state.curWh, 'Current', 290, 1.43]} />} />
+                                <Label content={<CustomizedLabel legend={[this.state.day, this.state.abbv, this.state.maxWh, 'Max', 290, 15]} />} />
+                                <Label content={<CustomizedLabel legend={[this.state.day, this.state.abbv, this.state.minWh, 'Min', 290, 2.3]} />} />
+                                <Label content={<CustomizedLabel legend={[this.state.day, this.state.abbv, this.state.curWh, 'Current', 290, 1.3]} />} />
                             </XAxis>
                             <YAxis />
                             <Legend />
@@ -59,9 +61,9 @@ export class HomePage extends Component {
                         >
                             <XAxis dataKey="name">
                                 <Label content={<CustomizedTitle legend={['7 Day Donald Trump Rolling Tweet Count', 175, 20]} />} />
-                                <Label content={<CustomizedLabel legend={[this.state.day, 'Week', this.state.maxRdt, 'Max', 290, 7.75]} />} />
-                                <Label content={<CustomizedLabel legend={[this.state.day, 'Week', this.state.minRdt, 'Min', 290, 2.3964]} />} />
-                                <Label content={<CustomizedLabel legend={[this.state.day, 'Week', this.state.curRdt, 'Current', 290, 1.43]} />} />
+                                <Label content={<CustomizedLabel legend={[this.state.day, this.state.abbv, this.state.maxRdt, 'Max', 290, 15]} />} />
+                                <Label content={<CustomizedLabel legend={[this.state.day, this.state.abbv, this.state.minRdt, 'Min', 290, 2.3]} />} />
+                                <Label content={<CustomizedLabel legend={[this.state.day, this.state.abbv, this.state.curRdt, 'Current', 290, 1.3]} />} />
                             </XAxis>
                             <YAxis />
                             <Legend />
@@ -80,9 +82,9 @@ export class HomePage extends Component {
                         >
                             <XAxis dataKey="name">
                                 <Label content={<CustomizedTitle legend={['7 Day Joe Biden Rolling Tweet Count', 175, 20]} />} />
-                                <Label content={<CustomizedLabel legend={[this.state.day, this.state.abbv, this.state.maxJb, 'Max', 290, 7.75]} />} />
-                                <Label content={<CustomizedLabel legend={[this.state.day, this.state.abbv, this.state.minJb, 'Min', 290, 2.3964]} />} />
-                                <Label content={<CustomizedLabel legend={[this.state.day, this.state.abbv, this.state.curJb, 'Current', 290, 1.43]} />} />
+                                <Label content={<CustomizedLabel legend={[this.state.day, this.state.abbv, this.state.maxJb, 'Max', 290, 15]} />} />
+                                <Label content={<CustomizedLabel legend={[this.state.day, this.state.abbv, this.state.minJb, 'Min', 290, 2.3]} />} />
+                                <Label content={<CustomizedLabel legend={[this.state.day, this.state.abbv, this.state.curJb, 'Current', 290, 1.3]} />} />
                             </XAxis>
                             <YAxis />
                             <Legend />
@@ -99,9 +101,9 @@ export class HomePage extends Component {
                         >
                             <XAxis dataKey="name">
                                 <Label content={<CustomizedTitle legend={['7 Day Mike Pence Rolling Tweet Count', 175, 20]} />} />
-                                <Label content={<CustomizedLabel legend={[this.state.day, this.state.abbv, this.state.maxMp, 'Max', 290, 7.75]} />} />
-                                <Label content={<CustomizedLabel legend={[this.state.day, this.state.abbv, this.state.minMp, 'Min', 290, 2.3964]} />} />
-                                <Label content={<CustomizedLabel legend={[this.state.day, this.state.abbv, this.state.curMp, 'Current', 290, 1.43]} />} />
+                                <Label content={<CustomizedLabel legend={[this.state.day, this.state.abbv, this.state.maxMp, 'Max', 290, 15]} />} />
+                                <Label content={<CustomizedLabel legend={[this.state.day, this.state.abbv, this.state.minMp, 'Min', 290, 2.3]} />} />
+                                <Label content={<CustomizedLabel legend={[this.state.day, this.state.abbv, this.state.curMp, 'Current', 290, 1.3]} />} />
                             </XAxis>
                             <YAxis />
                             <Legend />

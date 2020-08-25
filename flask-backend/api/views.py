@@ -46,6 +46,10 @@ def add_all():
     rdtTime = db.session.query(RdtTweetTime).first()
     jbTime = db.session.query(JbTweetTime).first()
     mpTime = db.session.query(MpTweetTime).first()
+    print(whTime.date)
+    print(rdtTime.date)
+    print(jbTime.date)
+    print(mpTime.date)
     curTime = datetime.strptime(datetime.now().astimezone(pytz.timezone('US/Eastern')).strftime('%Y-%m-%d %H:%M:%S'), '%Y-%m-%d %H:%M:%S')
     willCommit = False
     if ((curTime - whTime.date).total_seconds() > (15 * 60)):
@@ -81,6 +85,7 @@ def getData(modelName, modelTime, name):
     dt = datetime.now().astimezone(pytz.timezone('US/Eastern')).replace(hour=0,minute=0, second=0, microsecond=0) - timedelta(days=85)
     time = db.session.query(modelTime).first()
     curTime = datetime.strptime(datetime.now().astimezone(pytz.timezone('US/Eastern')).strftime('%Y-%m-%d %H:%M:%S'), '%Y-%m-%d %H:%M:%S')
+    print(time.date)
     if ((curTime - time.date).total_seconds() > (15 * 60)):
         getAllTweets(time.date, curTime, name)
         item = modelTime.query.get(1)
@@ -98,6 +103,7 @@ def getAllTweets(lstTime, curTime, tName):
     for status in tweepy.Cursor(api.user_timeline, screen_name=tName).items():
         times = status._json['created_at']
         dt_obj = datetime.strptime(datetime.strptime(times, "%a %b %d %H:%M:%S %z %Y").astimezone(pytz.timezone('US/Eastern')).strftime('%Y-%m-%d %H:%M:%S'), "%Y-%m-%d %H:%M:%S")
+        print(dt_obj, lstTime, curTime, tName)
         if (dt_obj > lstTime and dt_obj <= curTime):
             if tName == '@WhiteHouse':
                 tempArr.append(Tweets(dates=dt_obj))

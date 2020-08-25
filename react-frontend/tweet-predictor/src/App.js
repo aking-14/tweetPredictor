@@ -8,15 +8,7 @@ import Jb from './components/pages/Jb'
 import Mp from './components/pages/Mp'
 import './App.css';
 
-class App extends Component {
-  constructor(props){
-    super(props);
-
-    this.state = {tweetInfo: 2}
-  }
-
-
-
+export default class App extends Component {
   render() {
     return (
       <Router>
@@ -26,8 +18,8 @@ class App extends Component {
             <Route exact path="/" render={ () => <HomePage /> } />
             <Route path="/rdt" render={() => <Rdt seq={1} />} />
             <Route path="/wh" render={() => <Whitehouse seq={2} />} />
-            <Route path="/jb" component={() => <Jb seq={3} />} />
-            <Route path="/mp" component={() => <Mp seq={4} />} />
+            <Route path="/jb" render={() => <Jb seq={3} />} />
+            <Route path="/mp" render={() => <Mp seq={4} />} />
           </div>
         </div>
       </Router>
@@ -41,5 +33,3 @@ const classStyle = {
   maxWidth: '100vw',
   fontFamily: 'Crimson Text'
 }
-
-export default App;
