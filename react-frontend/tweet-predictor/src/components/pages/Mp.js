@@ -4,29 +4,45 @@ import CustomizedLabel from '../layout/CustomizedLabel';
 import {cleanData} from '../layout/Helpers';
 import { LineChart, Line, XAxis, YAxis, Legend, Tooltip, Label, ResponsiveContainer } from 'recharts';
 import { Row } from 'react-bootstrap';
+import logo from '../../images/mpPic.jpg'
 
 export default class Mp extends Component {
-    state = {
-        spinning: true
+    constructor(props){
+        super(props)
+        this.state = {
+            spinning: true
+        }
     }
 
     componentDidMount(){
-        fetch('/add_seq', {
-            method: 'POST',
-            headers: {
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify(this.props)
-        }).then(response => {
-            if (!response.ok){
-                throw new Error('Network response was not ok')
-            }
-            return response.json()
-        }).then(r => {
-            this.setState(cleanData(r), this.changeBol());
-        })
+        this.getApi()
+        this.timerVar = setInterval(() => this.getApi(), 1080*1000)
+    }
+
+    componentWillUnmount(){
+        clearInterval(this.timerVar)
     }
     
+    async getApi(){
+        try{
+            let response = await fetch('/add_seq', {
+                method: 'POST',
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify(this.props)
+            })
+            if (!response.ok){
+                throw new Error(`HTTP Error! Status: ${response.status}`)
+            }else{
+                let r = await response.json()
+                this.setState(cleanData(r), this.changeBol())
+            }
+        }catch(e){
+            console.log(e)
+        }
+    }
+
     changeBol = () => {
         this.setState({spinning: false})
     }
@@ -43,11 +59,28 @@ export default class Mp extends Component {
 
         return (
             <React.Fragment>
-                <Row>
-                    <div>
-                        <span style={{fontSize: 0}}>i</span>
+                <div className="rowTweet">
+                    <div className="columnTweet">
+                        <span style={{fontSize: '24px'}}>
+                            Expected Tweets Remaining for Day: 
+                            <span style={statStyle}>
+                                {this.state.expectedC}
+                            </span>
+                        </span>
                     </div>
-                </Row>
+                    <div className="columnTweet">
+                        <img className="imgs" src={logo} alt="logo"/>
+                    </div>
+                    <div className="columnTweet">
+                        <span style={{fontSize: '24px'}}>
+                            Expected Tweets Remaining for Week: 
+                            <span style={curStyle}>
+                                {this.state.expectedW}
+                            </span>
+                        </span>
+                    </div>
+                </div>
+                <hr />
                 <Row>
                     <ResponsiveContainer height={300}>
                         <LineChart data={this.state.data}
@@ -138,4 +171,32 @@ export default class Mp extends Component {
             </React.Fragment>
         )
     }
+}
+
+const statStyle = {
+    paddingRight: 3,
+    paddingLeft: 3,
+    marginLeft: 5,
+    marginRight: 5,
+    backgroundColor: '#4bb272',
+    color: '#333',
+    display: 'inline-block',
+    fontFamily: 'Crimson Text',
+    fontSize: 24,
+    textAlign: 'center',
+    borderStyle: 'solid'
+}
+
+const curStyle = {
+    paddingRight: 3,
+    paddingLeft: 3,
+    marginLeft: 5,
+    marginRight: 5,
+    backgroundColor: '#4bb272',
+    color: '#333',
+    display: 'inline-block',
+    fontFamily: 'Crimson Text',
+    fontSize: 24,
+    textAlign: 'center',
+    borderStyle: 'solid'
 }

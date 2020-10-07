@@ -12,16 +12,42 @@ export class HomePage extends Component {
             spinning: true
         }
     }
+
     componentDidMount(){
+        this.getApi()
+        this.timerVar = setInterval(() => this.getApi(), 1080 * 1000) //fetches every 18 mins
+    }
+
+    componentWillUnmount(){
+        clearInterval(this.timerVar)
+    }
+
+    async getApi(){
+        try {
+            let res = await fetch('/add_all');
+
+            if (!res.ok){
+                throw new Error(`HTTP error! Status: ${res.status}`);
+            }else{
+                let r = await res.json();
+                this.setState(cleanHomeData(r), this.changeBol())
+            }
+        }catch(e){
+            console.log(e)
+        }
+        /*
         fetch('/add_all', {
         }).then(res => res.json()).then(r => {
             this.setState(cleanHomeData(r), this.changeBol())
         });
+        */
     }
-    
+
     changeBol = () => {
         this.setState({spinning: false})
     }
+
+    
 
     render (){
         if (this.state.spinning){

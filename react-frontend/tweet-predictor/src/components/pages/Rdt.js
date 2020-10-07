@@ -3,15 +3,45 @@ import CustomizedTitle from '../layout/CustomizedTitle';
 import CustomizedLabel from '../layout/CustomizedLabel';
 import {cleanData} from '../layout/Helpers';
 import { LineChart, Line, XAxis, YAxis, Legend, Tooltip, Label, ResponsiveContainer } from 'recharts';
-import { Row, Col } from 'react-bootstrap';
+import { Row } from 'react-bootstrap';
 import logo from '../../images/rdtPic2.jpg'
 
 export default class Rdt extends Component {
-    state = {
-        spinning: true
+    constructor(props){
+        super(props)
+        this.state = {
+            spinning: true
+        }
     }
 
     componentDidMount(){
+        this.getApi()
+        this.timerVar = setInterval(() => this.getApi(), 1080*1000)
+    }
+
+    componentWillUnmount(){
+        clearInterval(this.timerVar)
+    }
+    
+    async getApi(){
+        try{
+            let response = await fetch('/add_seq', {
+                method: 'POST',
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify(this.props)
+            })
+            if (!response.ok){
+                throw new Error(`HTTP Error! Status: ${response.status}`)
+            }else{
+                let r = await response.json()
+                this.setState(cleanData(r), this.changeBol())
+            }
+        }catch(e){
+            console.log(e)
+        }
+        /*
         fetch('/add_seq', {
             method: 'POST',
             headers: {
@@ -26,8 +56,10 @@ export default class Rdt extends Component {
         }).then(r => {
             this.setState(cleanData(r), this.changeBol());
         })
+        */
     }
-    
+
+
     changeBol = () => {
         this.setState({spinning: false})
     }
@@ -44,34 +76,28 @@ export default class Rdt extends Component {
 
         return (
             <React.Fragment>
-                <Row>
-                    <div>
-                        <span style={{fontSize: 0}}>i</span>
-                    </div>
-                </Row>
-                <Row>
-                    <Col />
-                    <div style={{fontSize: '24px', display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
-                        Expected Tweets Remaining for Day: 
-                        <span style={statStyle}>
-                            {this.state.expectedC}
+                <div className="rowTweet">
+                    <div className="columnTweet">
+                        <span style={{fontSize: '24px'}}>
+                            Expected Tweets Remaining for Day: 
+                            <span style={statStyle}>
+                                {this.state.expectedC}
+                            </span>
                         </span>
                     </div>
-                    <Col />
-                    <Col />
-                    <div style={{paddingBottom: '10px'}}>
-                        <img className="img-rdt" src={logo} alt="logo"/>
+                    <div className="columnTweet">
+                        <img className="imgs" src={logo} alt="logo"/>
                     </div>
-                    <Col />
-                    <Col />
-                    <div style={{fontSize: '24px', display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
-                        Expected Tweets Remaining for Week: 
-                        <span style={curStyle}>
-                            {this.state.expectedW}
+                    <div className="columnTweet">
+                        <span style={{fontSize: '24px'}}>
+                            Expected Tweets Remaining for Week: 
+                            <span style={curStyle}>
+                                {this.state.expectedW}
+                            </span>
                         </span>
                     </div>
-                    <Col />
-                </Row>
+                </div>
+                <hr />
                 <Row>
                     <ResponsiveContainer height={300}>
                         <LineChart data={this.state.data}
@@ -169,14 +195,13 @@ const statStyle = {
     paddingLeft: 3,
     marginLeft: 5,
     marginRight: 5,
-    backgroundColor: '#ffde00',
+    backgroundColor: '#4bb272',
     color: '#333',
     display: 'inline-block',
     fontFamily: 'Crimson Text',
     fontSize: 24,
     textAlign: 'center',
-    borderStyle: 'solid',
-    position: 'relative'
+    borderStyle: 'solid'
 }
 
 const curStyle = {
@@ -190,6 +215,5 @@ const curStyle = {
     fontFamily: 'Crimson Text',
     fontSize: 24,
     textAlign: 'center',
-    borderStyle: 'solid',
-    position: 'relative'
+    borderStyle: 'solid'
 }

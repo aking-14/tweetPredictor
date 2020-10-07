@@ -28,8 +28,7 @@ export default class App extends Component {
 }
 
 const classStyle = {
-  marginRight: 0,
-  marginLeft: 0,
   maxWidth: '100vw',
-  fontFamily: 'Crimson Text'
+  fontFamily: 'Crimson Text',
+  backgroundColor: '#F5F8FA'
 }

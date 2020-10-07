@@ -1,45 +1,37 @@
 # tweetPredictor
-export FLASK_APP=api
-flask run
-npm start
+## To Run in dev
+* export FLASK_APP=api
+* flask run
+* npm start
 
-need to restart flask server after every change on flask
-to add a dependency to package.json - npm install dependency --save
-UTC time is 4 hours ahead of ET
-Next steps: get accurate tweet counts
-cron job on aws server
-have function that downloads any users tweet data and calculates moving average
-next:calc weekly value area, have rolling dates, put actual number in, have 100, 50 dma
-look into yang db file for other metrics, maybe add 2nd deviation as well
-additional metrics, cumulative graph
-this.props.children
-current time val, vah, ave til eod graph?
-cumulative prediction
-div:empty css means no children inside element
-event tracker - number of events today placement
-from sunday prediction, hourly prediction
-let keyword is variable only defined in scope of function, var keyword is global (like public and private in java)
-have rolling forward and backward hourly prices
-correlate tweets with event times
-validate correct counts for current/more narrow vah/val
-update max/min count based on current data
-certain color means in value area, or projected to be in value area, red =  projected not to be in value area, green = projected to be in value area
-nfdata 1, vah, val projected from cumulative count 
-projected count messing up
+# To Do
+* Test fetch code on frontend 
+* Implement redux and load pictures from state
+* Spinning wheel only on home page
+* Update Db to current
+* AWS
+* Docker
+* In place to catch missing tweets, ex. today rdt tweet at 6:36 pm was not counted in db
+* Jira/Git on youtube
 
-new conference, bill trump is signing = high tweets
-em is scaled font size in html/css
-max/min/cur for rolling and fixed 24 hour
-dummy db tables and times to test
-rdt tweets need to be updated
-light blue background color bootstrap
-have expected tweets remaining for week/day in middle of graph with picture
-pictures
-spinning wheel only on home page
-fetch every 15 mins on frontend, on back end update every 15 mins regardless of frontend api call or not
-load picture from state as well
+# In Future
+* Have function that downloads any users tweet data and calculates moving average
+* Have 100, 50 dma
+* Event tracker - number of events today placement
+* Correlate tweets with event times
+* At the top when showing the weekly/daily counts certain color means in value area, or projected to be in value area, red =  projected not to be in value area, green = projected to be in value area
 
 
-database duplicating values because brave browser extension vanilla cookie manager was clearing cookies from other brave browser extensions causing a 2nd render of page on start up.
-
-look up display flex, and other flexbox characteristics, display inline-block, position relative, have faint top and bottom border between pic and graphs maybe style it to look cool, look into iframe and pre tags, dynamically style both span and div elements in css sheet, read html standard website
+# Things to Know
+* Database duplicating values because brave browser extension vanilla cookie manager was clearing cookies from other brave browser extensions causing a 2nd render of page on start up.
+* Look into iframe, read html standard website
+* Most people have a container in before they put the content of their html on the page that designates padding between the header and rest of page, max-width of text/main content (margins), and padding of main content as well as media references to change padding/margins if page gets smaller, this gives effect of whitespace around main content on webpage.
+* Don't use flexbox for page layout, can be accomplished with media queries, percentages, and max-widths
+* em is scaled font size in html/css based on parent, rem is scaled based on root container
+* News conference, bill trump is signing = high number of tweets
+* Need to restart flask server after every change in flask
+* To add a dependency to package.json - npm install dependency --save
+* UTC time is 4 hours ahead of ET
+* Look into cron job on AWS server
+* div:empty css means no children inside element
+* let keyword is variable only defined in scope of function, var keyword is global (like public and private in java)
