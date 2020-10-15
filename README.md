@@ -13,6 +13,11 @@
 * Docker
 * In place to catch missing tweets, ex. today rdt tweet at 6:36 pm was not counted in db
 * Jira/Git on youtube
+* Push docker image into aws from docker git
+* docker with db???
+* mongodb??
+* change db schema of user
+* check for duplicate emails on backend
 
 # In Future
 * Have function that downloads any users tweet data and calculates moving average
@@ -27,7 +32,7 @@
 * Look into iframe, read html standard website
 * Most people have a container in before they put the content of their html on the page that designates padding between the header and rest of page, max-width of text/main content (margins), and padding of main content as well as media references to change padding/margins if page gets smaller, this gives effect of whitespace around main content on webpage.
 * Don't use flexbox for page layout, can be accomplished with media queries, percentages, and max-widths
-* em is scaled font size in html/css based on parent, rem is scaled based on root container
+* em is scaled font size in html/css based on parent, rem is scaled based on root node
 * News conference, bill trump is signing = high number of tweets
 * Need to restart flask server after every change in flask
 * To add a dependency to package.json - npm install dependency --save
@@ -35,3 +40,7 @@
 * Look into cron job on AWS server
 * div:empty css means no children inside element
 * let keyword is variable only defined in scope of function, var keyword is global (like public and private in java)
+* docker compose allows multiple containers at once such as db or backend along with frontend
+* When you use fetch() function in javascript, it is expecting a request object from the server, why use jsonify in some cases in backend code
+* all html input tags return an event object, why you need to use event.target.value to get text returned from html input form
+* Components that are wrapped in a Route have access to this.props.history, components that aren't wrapped with a Route need to be passed withRouter or hooks
