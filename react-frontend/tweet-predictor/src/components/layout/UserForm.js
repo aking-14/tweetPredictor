@@ -64,7 +64,7 @@ export default class UserForm extends React.Component {
             }else{
                 let res = await response.json()
                 if (res['Response']){
-                    this.props.activeUser(true)
+                    this.props.activeUser({'login': true, 'userName': this.state.username})
                     //this.props.history.push("/profile")
                 }else{
                     this.setState({emailError: "This email address is already associated with an account. Please enter another one."})

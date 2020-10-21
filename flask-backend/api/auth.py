@@ -23,6 +23,13 @@ def addUser():
         return jsonify({'Response': False})
     return jsonify({'Response': True})
 
+@auth_bp.route('/logout', methods=['GET'])
+@login_required
+def logout():
+    logout_user()
+    return jsonify({'complete': True})
+
+
 @login_manager.user_loader
 def load_user(user_id):
     if user_id is not None:
@@ -36,4 +43,4 @@ def unauthorized():
 @auth_bp.route('/loginsession', methods=['GET'])
 @login_required # will call unauthorized_handler callback if not logged in
 def loginsession():
-    return jsonify({"valid": True})
+    return jsonify({"valid": True, 'userName': current_user.username})

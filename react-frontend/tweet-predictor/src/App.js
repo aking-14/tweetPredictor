@@ -7,6 +7,7 @@ import Rdt from './components/pages/Rdt'
 import Jb from './components/pages/Jb'
 import Mp from './components/pages/Mp'
 import Profile from './components/pages/Profile'
+import Login from './components/pages/Login'
 
 export default class App extends React.Component {
   constructor(props){
@@ -28,7 +29,7 @@ export default class App extends React.Component {
         throw new Error(`HTTP Error! Status ${res.status}`);
       }else{
         let r = await res.json()
-        r.valid ? this.setState({login: true}, this.changeBol()) : this.setState({login: false}, this.changeBol());
+        r.valid ? this.setState({login: true, userName: r.userName}, this.changeBol()) : this.setState({login: false}, this.changeBol());
       }
     }catch(e){
       console.log(e)
@@ -36,11 +37,15 @@ export default class App extends React.Component {
   }
 
   activeUser = (d) => {
-    this.setState({login: d})
+    this.setState({login: d['login'], userName: d['userName']})
   }
 
   changeBol = () => {
     this.setState({spinning: false})
+  }
+
+  userLogout = (d) => {
+    this.setState({login: d['login'], userName: d['userName']})
   }
 
 
@@ -53,7 +58,7 @@ export default class App extends React.Component {
     return (
       <Router>
         <div className="App">
-          <Header {...this.state} />
+          <Header {...this.state} userLogout={this.userLogout}/>
           <div className="container" style={classStyle}>
             <Route exact path="/" render={ () => <HomePage {...this.state} activeUser={this.activeUser}/> } />
             <Route path="/rdt" render={() => <Rdt seq={1} />} />
@@ -61,6 +66,7 @@ export default class App extends React.Component {
             <Route path="/jb" render={() => <Jb seq={3} />} />
             <Route path="/mp" render={() => <Mp seq={4} />} />
             <Route path="/profile" render={() => <Profile />} />
+            <Route path="/login" render={() => <Login />} />
           </div>
         </div>
       </Router>

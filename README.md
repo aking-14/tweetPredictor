@@ -44,3 +44,15 @@
 * When you use fetch() function in javascript, it is expecting a request object from the server, why use jsonify in some cases in backend code
 * all html input tags return an event object, why you need to use event.target.value to get text returned from html input form
 * Components that are wrapped in a Route have access to this.props.history, components that aren't wrapped with a Route need to be passed withRouter or hooks
+* Context (this), global in functions if not explicitly told to set context, so context depends on how function is called, in arrow functions context is scope of function (lexical scope) for global code/functions will be set to global scope (use this of parent scope, inherits this of parent scope), regular functions need to be bound explicitly
+* Ex. 
+var obj = {
+    bar: function (){
+        var x = (() => this)
+        return x
+    }
+}
+
+var fn = obj.bar() // calls bar as method of obj set this to obj, fn() === obj
+var fn2 = obj.bar // references bar but never calls it, calling bar method inside obj now returns window because it follows the this from fn2 (global), fn2()() === window is true
+* functions in es6 class need to be bound explicitly, arrow functions handle this automatically

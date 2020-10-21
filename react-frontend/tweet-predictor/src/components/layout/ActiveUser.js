@@ -1,9 +1,9 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, withRouter } from 'react-router-dom';
 import { Navbar, Nav, Button, Modal, NavDropdown } from 'react-bootstrap';
 import profilePic from '../../images/americanFlag.jpg'
 
-export default class ActiveUser extends React.Component{
+export class ActiveUser extends React.Component{
     constructor(props){
         super(props)
         this.state = {
@@ -32,6 +32,20 @@ export default class ActiveUser extends React.Component{
         this.setState({show: !this.state.show})
     }
 
+    logOutFunc = async () => {
+        try{
+            let response = await fetch('/logout', {credentials: 'include'})
+            if (!response.ok){
+                throw new Error(`HTTP Error! Status ${response.status}`)
+            }else{
+                this.props.userLogout({'login': false, 'userName': ''})
+                this.props.history.push("/")
+            }
+        }catch(e){
+            console.log(e)
+        }
+    }
+
     render() {
         return (
             <Navbar className="color-nav" collapseOnSelect expand='lg'>
@@ -48,12 +62,16 @@ export default class ActiveUser extends React.Component{
                         <Nav.Link as={Link} onClick = {this.onClick('mp')} className = {this.state.mp} to="/mp">Mike Pence</Nav.Link>
                         
                     </Nav>
-                    <Button variant="link" onClick= {this.handleShow} className="ml-auto">Help</Button>
-                    <Nav>
+                    {/*<Button variant="link" onClick= {this.handleShow} className="ml-auto">Help</Button>*/}
+                    <Nav className="ml-auto">
                         <NavDropdown id="basic-nav-dropdown" title={<img className="imgProfile" src={profilePic} alt="Profile Pic"/>}>
-                            <NavDropdown.Item>Test</NavDropdown.Item>
+                            <NavDropdown.Item>Signed in as <b>{this.props.userName}</b></NavDropdown.Item>
                             <NavDropdown.Divider />
-                            <NavDropdown.Item>Another Test</NavDropdown.Item>
+                            <NavDropdown.Item>Profile</NavDropdown.Item>
+                            <NavDropdown.Item>
+                                <Button variant="link" onClick= {this.handleShow}>Help</Button>
+                            </NavDropdown.Item>
+                            <NavDropdown.Item><Button variant="link" onClick = {this.logOutFunc}>Log Out</Button></NavDropdown.Item>
                         </NavDropdown>
                     </Nav>
                     <Modal show={this.state.show} onHide={this.handleShow}>
@@ -84,3 +102,5 @@ export default class ActiveUser extends React.Component{
         )
     }
 }
+
+export default withRouter(ActiveUser)
