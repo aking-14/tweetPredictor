@@ -34,7 +34,9 @@ class User(UserMixin, db.Model):
     first_name = db.Column(db.String(40), nullable=False, unique=False)
     last_name = db.Column(db.String(40), nullable=False, unique=False)
     username = db.Column(db.String(20), nullable=False, unique=False)
+    username_lower = db.Column(db.String(20), nullable=False, unique=False)
     email = db.Column(db.String(40), nullable=False, unique=True)
+    email_lower = db.Column(db.String(40), nullable=False, unique=True)
     password = db.Column(db.String(200), primary_key=False, unique=False, nullable=False)
     created_on = db.Column(db.DateTime, index=False, unique=False, nullable=True)
     

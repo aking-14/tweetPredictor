@@ -9,7 +9,11 @@ export default class UserForm extends React.Component {
             lastName: '',
             username: '',
             email: '',
-            password: ''
+            password: '',
+            usernameError: '',
+            emailError: '',
+            flagUsername: false,
+            flagEmail: false
         }
     }
 
@@ -18,6 +22,12 @@ export default class UserForm extends React.Component {
             e.target.value = e.target.value.substr(0, maxLen)
         }
         this.setState({[userItem]: e.target.value.trim()})
+        if (userItem === 'username' && this.state.flagUsername){
+            this.setState({flagUsername: false})
+        }
+        if (userItem === 'email' && this.state.flagEmail){
+            this.setState({flagEmail: false})
+        }
     }
 
     onClick = (e) => {
@@ -43,6 +53,14 @@ export default class UserForm extends React.Component {
             pswdErr = 'Please enter a valid password'
             valid = false
         }
+        if (this.state.flagUsername){
+            unameErr = this.state.usernameError
+            valid = false
+        }
+        if (this.state.flagEmail){
+            emailErr = this.state.emailError
+            valid = false
+        }
         if (valid){
             this.sendToServer(this.state)
         }else{
@@ -50,7 +68,7 @@ export default class UserForm extends React.Component {
         }
     }
 
-    async sendToServer(data) {
+    sendToServer = async (data) => {
         try {
             let response = await fetch('/add_user', {
                 method: 'POST',
@@ -67,7 +85,7 @@ export default class UserForm extends React.Component {
                     this.props.activeUser({'login': true, 'userName': this.state.username})
                     //this.props.history.push("/profile")
                 }else{
-                    this.setState({emailError: "This email address is already associated with an account. Please enter another one."})
+                    this.setState({firstNameError: '', lastNameError: '', usernameError: res['Error'][0], emailError: res['Error'][1], passwordError: '', flagUsername: res['Error'][2], flagEmail: res['Error'][3]})
                 }
             }
         }catch(e){
@@ -78,7 +96,7 @@ export default class UserForm extends React.Component {
 
     render(){
         return (
-            <Form>
+            <Form className={this.props.style}>
                 <Form.Row>
                     <Form.Group as={Col} controlId="fname">
                         <Form.Label>First Name:</Form.Label>

@@ -25,9 +25,7 @@ export default class GuestHomePage extends React.Component {
                     </div>
                     <h1 style={{textAlign: 'center'}}>Are you ready to learn more?</h1>
                     <h3 style={{textAlign: 'center'}}>Sign up (<b><i>it's free</i></b>) or visit our <a href="/about">about</a> page for a more detailed explanation of how everything works.</h3>
-                    <div style={{border: '0.25px solid', borderRadius: '15px', padding: '16px', backgroundColor: 'white'}}>
-                        <UserForm activeUser={this.activeUser}/>
-                    </div>
+                    <UserForm {...{'style':'loginForm'}} activeUser={this.activeUser}/>
                 </div>
             </div>
         )

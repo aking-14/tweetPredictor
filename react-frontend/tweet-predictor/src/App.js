@@ -8,6 +8,8 @@ import Jb from './components/pages/Jb'
 import Mp from './components/pages/Mp'
 import Profile from './components/pages/Profile'
 import Login from './components/pages/Login'
+import Signup from './components/pages/Signup'
+import About from './components/pages/About'
 
 export default class App extends React.Component {
   constructor(props){
@@ -37,7 +39,7 @@ export default class App extends React.Component {
   }
 
   activeUser = (d) => {
-    this.setState({login: d['login'], userName: d['userName']})
+    this.setState({login: d['login'], userName: d['username']})
   }
 
   changeBol = () => {
@@ -66,7 +68,9 @@ export default class App extends React.Component {
             <Route path="/jb" render={() => <Jb seq={3} />} />
             <Route path="/mp" render={() => <Mp seq={4} />} />
             <Route path="/profile" render={() => <Profile />} />
-            <Route path="/login" render={() => <Login />} />
+            <Route path="/login" render={(props) => <Login {...props} activeUser={this.activeUser}/>} />
+            <Route path="/signup" render={(props) => <Signup {...props} activeUser={this.activeUser}/>} />
+            <Route path="/about" render={() => <About />} />
           </div>
         </div>
       </Router>
