@@ -25,6 +25,8 @@
 * Event tracker - number of events today placement
 * Correlate tweets with event times
 * At the top when showing the weekly/daily counts certain color means in value area, or projected to be in value area, red =  projected not to be in value area, green = projected to be in value area
+* Data validation/backup
+* Security Questions/Email users who forget password
 
 
 # Things to Know
@@ -56,3 +58,7 @@ var obj = {
 var fn = obj.bar() // calls bar as method of obj set this to obj, fn() === obj
 var fn2 = obj.bar // references bar but never calls it, calling bar method inside obj now returns window because it follows the this from fn2 (global), fn2()() === window is true
 * functions in es6 class need to be bound explicitly, arrow functions handle this automatically
+* if you pass a function to a variable and then get its length it will correspond to the number of parameters taken by the function
+
+* profile page, redux
+* private route with utility function calling async function that sees if user is logged in or not OR login_required on backend or return null

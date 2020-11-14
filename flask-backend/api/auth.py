@@ -1,6 +1,6 @@
 from flask import current_app as current_app
 from flask import Blueprint, request, session, url_for, jsonify
-from flask_login import login_required, logout_user, current_user, login_user 
+from flask_login import login_required, logout_user, current_user, login_user, fresh_login_required
 from werkzeug.security import generate_password_hash, check_password_hash
 from datetime import timedelta, datetime
 import pytz
@@ -49,6 +49,25 @@ def login():
             return jsonify({'Response': False, 'Error': 'Invalid username/email or password'})
     return jsonify({'Response': False, 'Error': 'Invalid username/email or password'})
 
+@auth_bp.route('/login_check', methods=['POST'])
+@login_required
+def login_check():
+    data = request.get_json()
+    lowerLogin = data['username'].lower()
+    user = User.query.filter_by(username_lower=lowerLogin).first()
+    if user:
+        if user.check_password(password=data['password']):
+            return jsonify({'Response': True})
+        return jsonify({'Response': False, 'Error': 'Invalid username/email or password'})
+    else:
+        user = User.query.filter_by(email_lower=lowerLogin).first()
+        if user:
+            if user.check_password(password=data['password']):
+                return jsonify({'Response': True})
+            return jsonify({'Response': False, 'Error': 'Invalid username/email or password'})
+    return jsonify({'Response': False, 'Error': 'Invalid username/email or password'})
+
+
 @auth_bp.route('/logout', methods=['GET'])
 @login_required
 def logout():
@@ -64,9 +83,35 @@ def load_user(user_id):
 
 @login_manager.unauthorized_handler
 def unauthorized():
-    return jsonify({"Unauthorized": "Unauthorized"})
+    return jsonify({"valid": False, 'Error': 'Invalid login'})
 
 @auth_bp.route('/loginsession', methods=['GET'])
 @login_required # will call unauthorized_handler callback if not logged in
 def loginsession():
     return jsonify({"valid": True, 'userName': current_user.username})
+
+@auth_bp.route('/change_data', methods=['POST'])
+@login_required
+def change_data():
+    data = request.get_json()
+    if data['type'] == 'username':
+        lowerOldUname = data['dataOld'].lower()
+        if lowerOldUname != current_user.username_lower:
+            return jsonify({"valid": False, 'Error': 'Username entered does not match account username.'})
+        lowerUname = data['data'].lower()
+        uname_exists = db.session.query(User.id).filter_by(username_lower=lowerUname).scalar() is not None
+        if not uname_exists:
+            current_user.username = data['data']
+            current_user.username_lower = lowerUname
+            db.session.commit()
+            return jsonify({"valid": True, 'path': True})
+        else:
+            return jsonify({"valid": False, 'Error': 'Username already exists!'})
+    else:
+        if current_user.check_password(password=data['dataOld']):
+            current_user.password = generate_password_hash(data['data'], method='sha256')
+            db.session.commit()
+            return jsonify({"valid": True, 'path': False})
+        else:
+            return jsonify({"valid": False, 'Error': 'Password entered does not match account password.'})
+

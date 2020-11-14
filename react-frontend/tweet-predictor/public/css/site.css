@@ -32,9 +32,30 @@
         order: 3;
         padding: 10px;
     }
+    .about-column {
+        align-self: center;
+        text-align: center;
+        padding: 10px;
+    }
+    .chart-space {
+        padding: 20px 0px;
+    }
 }
 
-@media screen and (min-width: 890px){
+@media screen and (max-width: 890px) and (min-width: 650px){
+    .chart-title {
+        font-size: 1.5rem;
+    }
+}
+
+@media screen and (max-width: 500px) {
+    .chart-title {
+        font-size: 0.9rem;
+    }
+}
+
+
+@media screen and (min-width: 891px){
     .recharts-responsive-container {
         width: 50% !important;
     }
@@ -64,6 +85,11 @@
         align-self: center;
         text-align: center;
         padding: 10px;
+    }    
+}
+@media screen and (min-width: 1200px){
+    .chart-title {
+        font-size: 1.5rem;
     }
 }
 
@@ -86,7 +112,7 @@ a {
 hr {
     border: none;
     border-bottom: 1px solid #ddd;
-    margin-bottom: 23px;
+    margin-bottom: 20px;
 }
 
 input {
@@ -213,8 +239,37 @@ input {
     padding: 10px 5px;
 }
 
+.about-img {
+    height: auto;
+    width: auto;
+    max-width: 100%;
+    max-height: 100%;
+}
+
+.about-top-column {
+    flex: 100%;
+    align-self: center;
+    text-align: center;
+    padding: 10px;
+}
+
+.profile-column {
+    flex: 50%;
+    align-self: center;
+    text-align: center;
+    padding: 10px;
+}  
+
 .format-form {
     padding: 10px;
+}
+
+.market-spacing-top {
+    padding: 20px 20px;
+}
+
+.market-spacing-bottom {
+    padding: 20px 20px 40px;
 }
 
 .recharts-tooltip-item-name, .recharts-tooltip-item-separator,

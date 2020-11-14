@@ -54,12 +54,7 @@ export default class UserHomePage extends Component {
 
         return (
             <React.Fragment>
-                <Row>
-                    <div>
-                        <span style={{fontSize: 0}}>i</span>
-                    </div>
-                </Row>
-                <Row>
+                <Row style={{padding: '40px 20px 20px'}}>
                     <ResponsiveContainer height={300}>
                         <LineChart data={this.state.data}
                             margin={{top: 30, right: 20, bottom: 30}}
@@ -68,7 +63,7 @@ export default class UserHomePage extends Component {
                                 <Label content={<CustomizedTitle legend={['7 Day Whitehouse Rolling Tweet Count', 175, 20]} />} />
                                 <Label content={<CustomizedLabel legend={[this.state.day, this.state.abbv, this.state.maxWh, 'Max', 290, 15]} />} />
                                 <Label content={<CustomizedLabel legend={[this.state.day, this.state.abbv, this.state.minWh, 'Min', 290, 2.3]} />} />
-                                <Label content={<CustomizedLabel legend={[this.state.day, this.state.abbv, this.state.curWh, 'Current', 290, 1.3]} />} />
+                                <Label content={<CustomizedLabel legend={[this.state.day, this.state.abbv, this.state.curWh, 'Current', 290, 1.2]} />} />
                             </XAxis>
                             <YAxis />
                             <Legend />
@@ -79,15 +74,15 @@ export default class UserHomePage extends Component {
                             <Line type="monotone" dataKey="Actual Count" stroke="#050d08" />
                         </LineChart>
                     </ResponsiveContainer>
-                    <ResponsiveContainer height={300}>
+                    <ResponsiveContainer height={300} className="chart-space">
                         <LineChart data={this.state.rdtData}
                             margin={{top: 30, left: 10, bottom: 30, right: 20}}
                         >
                             <XAxis dataKey="name">
                                 <Label content={<CustomizedTitle legend={['7 Day Donald Trump Rolling Tweet Count', 175, 20]} />} />
-                                <Label content={<CustomizedLabel legend={[this.state.day, this.state.abbv, this.state.maxRdt, 'Max', 290, 15]} />} />
-                                <Label content={<CustomizedLabel legend={[this.state.day, this.state.abbv, this.state.minRdt, 'Min', 290, 2.3]} />} />
-                                <Label content={<CustomizedLabel legend={[this.state.day, this.state.abbv, this.state.curRdt, 'Current', 290, 1.3]} />} />
+                                <Label content={<CustomizedLabel legend={[this.state.day, this.state.abbv, this.state.maxRdt, 'Max', 290, 11]} />} />
+                                <Label content={<CustomizedLabel legend={[this.state.day, this.state.abbv, this.state.minRdt, 'Min', 290, 2.1]} />} />
+                                <Label content={<CustomizedLabel legend={[this.state.day, this.state.abbv, this.state.curRdt, 'Current', 290, 1.2]} />} />
                             </XAxis>
                             <YAxis />
                             <Legend />
@@ -99,7 +94,7 @@ export default class UserHomePage extends Component {
                         </LineChart>
                     </ResponsiveContainer>
                 </Row>
-                <Row>
+                <Row className="market-spacing-bottom">
                     <ResponsiveContainer height={300}>
                         <LineChart data={this.state.jbData}
                             margin={{top: 30, bottom: 30, right: 20}}
@@ -108,7 +103,7 @@ export default class UserHomePage extends Component {
                                 <Label content={<CustomizedTitle legend={['7 Day Joe Biden Rolling Tweet Count', 175, 20]} />} />
                                 <Label content={<CustomizedLabel legend={[this.state.day, this.state.abbv, this.state.maxJb, 'Max', 290, 15]} />} />
                                 <Label content={<CustomizedLabel legend={[this.state.day, this.state.abbv, this.state.minJb, 'Min', 290, 2.3]} />} />
-                                <Label content={<CustomizedLabel legend={[this.state.day, this.state.abbv, this.state.curJb, 'Current', 290, 1.3]} />} />
+                                <Label content={<CustomizedLabel legend={[this.state.day, this.state.abbv, this.state.curJb, 'Current', 290, 1.2]} />} />
                             </XAxis>
                             <YAxis />
                             <Legend />
@@ -119,15 +114,15 @@ export default class UserHomePage extends Component {
                             <Line type="monotone" dataKey="Actual Count" stroke="#050d08" />
                         </LineChart>
                     </ResponsiveContainer>
-                    <ResponsiveContainer height={300}>
+                    <ResponsiveContainer height={300} className="chart-space">
                         <LineChart data={this.state.mpData}
                             margin={{top: 30, left: 10, bottom: 30, right: 20}}
                         >
                             <XAxis dataKey="name">
                                 <Label content={<CustomizedTitle legend={['7 Day Mike Pence Rolling Tweet Count', 175, 20]} />} />
-                                <Label content={<CustomizedLabel legend={[this.state.day, this.state.abbv, this.state.maxMp, 'Max', 290, 15]} />} />
-                                <Label content={<CustomizedLabel legend={[this.state.day, this.state.abbv, this.state.minMp, 'Min', 290, 2.3]} />} />
-                                <Label content={<CustomizedLabel legend={[this.state.day, this.state.abbv, this.state.curMp, 'Current', 290, 1.3]} />} />
+                                <Label content={<CustomizedLabel legend={[this.state.day, this.state.abbv, this.state.maxMp, 'Max', 290, 11]} />} />
+                                <Label content={<CustomizedLabel legend={[this.state.day, this.state.abbv, this.state.minMp, 'Min', 290, 2.1]} />} />
+                                <Label content={<CustomizedLabel legend={[this.state.day, this.state.abbv, this.state.curMp, 'Current', 290, 1.2]} />} />
                             </XAxis>
                             <YAxis />
                             <Legend />

@@ -81,7 +81,7 @@ export default class Jb extends Component {
                     </div>
                 </div>
                 <hr />
-                <Row>
+                <Row className="market-spacing-top">
                     <ResponsiveContainer height={300}>
                         <LineChart data={this.state.data}
                             margin={{top: 50, right: 20, bottom: 30}}
@@ -90,7 +90,7 @@ export default class Jb extends Component {
                                 <Label content={<CustomizedTitle legend={['7 Day Joe Biden Rolling Tweet Count', 175, 20]} />} />
                                 <Label content={<CustomizedLabel legend={[this.state.day, this.state.abbv, this.state.max, 'Max', 290, 15]} />} /> {/*Use case for redux state*/}
                                 <Label content={<CustomizedLabel legend={[this.state.day, this.state.abbv, this.state.min, 'Min', 290, 2.3]} />} />
-                                <Label content={<CustomizedLabel legend={[this.state.day, this.state.abbv, this.state.cur, 'Current', 290, 1.3]} />} />
+                                <Label content={<CustomizedLabel legend={[this.state.day, this.state.abbv, this.state.cur, 'Current', 290, 1.2]} />} />
                             </XAxis>
                             <YAxis />
                             <Legend />
@@ -101,15 +101,15 @@ export default class Jb extends Component {
                             <Line type="monotone" dataKey="Actual Count" stroke="#050d08" />
                         </LineChart>
                     </ResponsiveContainer>
-                    <ResponsiveContainer height={300}>
+                    <ResponsiveContainer height={300} className="chart-space">
                         <LineChart data={this.state.fixedData}
                             margin={{top: 50, left: 10, bottom: 30, right: 20}}
                         >
                             <XAxis dataKey="name">
                                 <Label content={<CustomizedTitle legend={['7 Day Joe Biden Fixed Tweet Count', 175, 20]} />} />
-                                <Label content={<CustomizedLabel legend={['Weekly', 'Week', this.state.maxWk, 'Max', 290, 7.75]} />} />
-                                <Label content={<CustomizedLabel legend={['Weekly', 'Week', this.state.minWk, 'Min', 290, 2.05]} />} />
-                                <Label content={<CustomizedLabel legend={['Weekly', 'Week', this.state.curWk, 'Current', 290, 1.15]} />} />
+                                <Label content={<CustomizedLabel legend={['Weekly', 'Wk.', this.state.maxWk, 'Max', 290, 10]} />} />
+                                <Label content={<CustomizedLabel legend={['Weekly', 'Wk.', this.state.minWk, 'Min', 290, 2.05]} />} />
+                                <Label content={<CustomizedLabel legend={['Weekly', 'Wk.', this.state.curWk, 'Current', 290, 1.175]} />} />
                             </XAxis>
                             <YAxis />
                             <Legend formatter={this.renderLegend} wrapperStyle={{left: 40}}/>
@@ -123,15 +123,15 @@ export default class Jb extends Component {
                         </LineChart>
                     </ResponsiveContainer>
                 </Row>
-                <Row>
+                <Row className="market-spacing-bottom">
                     <ResponsiveContainer height={300}>
                         <LineChart data={this.state.hourlyData}
                             margin={{top: 50, bottom: 30, right: 20}}
                         >
                             <XAxis dataKey="name">
                                 <Label content={<CustomizedTitle legend={['24 Hour Joe Biden Rolling Tweet Count', 175, 40]} />} />
-                                <Label content={<CustomizedLabel legend={['Past Day', 'P. D.', this.state.legMax, 'Max', 290, 7.75]} />} />
-                                <Label content={<CustomizedLabel legend={['Past Day', 'P. D.', this.state.legCur, 'Actual', 290, 2.05]} />} />
+                                <Label content={<CustomizedLabel legend={['Past Day', 'P. D.', this.state.legMax, 'Max', 290, 12]} />} />
+                                <Label content={<CustomizedLabel legend={['Past Day', 'P. D.', this.state.legCur, 'Actual', 290, 2.15]} />} />
                                 <Label content={<CustomizedLabel legend={['Past Day', 'P. D.', this.state.legMA, 'MA', 290, 1.15]} />} />
                             </XAxis>
                             <YAxis />
@@ -145,7 +145,7 @@ export default class Jb extends Component {
                             <Line type="monotone" dataKey="Current" stroke="#050d08" />
                         </LineChart>
                     </ResponsiveContainer>
-                    <ResponsiveContainer height={300}>
+                    <ResponsiveContainer height={300} className="chart-space">
                         <LineChart data={this.state.fixedHrly}
                             margin={{top: 50, bottom: 30, left: 10, right: 20}}
                         >
@@ -162,11 +162,6 @@ export default class Jb extends Component {
                             <Line type="monotone" dataKey="Cumulative Count" stroke="#050d08" />
                         </LineChart>
                     </ResponsiveContainer>
-                </Row>
-                <Row>
-                    <div>
-                        <span style={{fontSize: 0}}>i</span>
-                    </div>
                 </Row>
             </React.Fragment>
         )

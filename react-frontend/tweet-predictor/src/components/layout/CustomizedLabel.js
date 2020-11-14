@@ -4,7 +4,7 @@ import {Text} from 'recharts';
 export default class CustomizedLabel extends React.Component{
     render () {
         var fontS, ind
-        if (this.props.viewBox['width'] > 640){
+        if (this.props.viewBox['width'] > 585){
             fontS = 16
             ind = 0
         }else if (this.props.viewBox['width'] > 490){

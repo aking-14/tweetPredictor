@@ -15,6 +15,8 @@ ACCESS_SECRET = '0dh0MrjJdmvcTYvO2r5LTMYrODPx4RKM2w1NnYvl30ASj'
 CONSUMER_KEY = 'ewukOZR9emRzXzWPuMbOe4Lig'
 CONSUMER_SECRET = 'NwiegfDOcyjRiSaGS7b9z5jwkJxDk2Wj4oQtVOuD1Wv0m6rBp4'
 
+#@login_required
+
 @main.before_app_first_request
 def before_app_first_request():
     getTweetData()

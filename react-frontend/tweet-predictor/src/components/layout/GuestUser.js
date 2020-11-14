@@ -15,7 +15,8 @@ export default class GuestUser extends React.Component{
     }
 
     componentDidMount(){
-        let dflt = window.location.pathname === "/" ? "home" : window.location.pathname.slice(1)
+        let pth = window.location.pathname
+        let dflt = pth === "/" || pth === '/rdt' || pth === '/wh' || pth === '/jb' || pth === '/mp' || pth === '/profile' ? "home" : window.location.pathname.slice(1)
         this.setState({[dflt]: 'nav-selected', selected: dflt})
     }
 
